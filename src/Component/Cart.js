@@ -3,17 +3,21 @@ import { useDispatch } from "react-redux";
 import { CartItems } from "../actions";
 import { updateCart, DeleteCart } from "../actions";
 
+// Cart component to display items in the cart
 export default function Cart({ item }) {
+  // dispatch functions for updating cart
   const dispatchPlus = useDispatch();
   const dispatchMinus = useDispatch();
   const dispatchTotal = useDispatch();
   const dispatchDelete = useDispatch();
+
   // increase quantity of product
   function handlePlus(item) {
     item.qty += 1;
     dispatchPlus(updateCart(item));
     dispatchTotal(CartItems());
   }
+
   // decrease quantity of product
   function handleMinus(item) {
     if (item.qty > 1) {
@@ -22,23 +26,25 @@ export default function Cart({ item }) {
       dispatchTotal(CartItems());
     }
   }
+
   // delete product from cart
   function handleCancel(item) {
     dispatchDelete(DeleteCart(item));
     dispatchTotal(CartItems());
   }
+
   return (
     <>
-      {/* items added to Cart  */}
-      <div className="d-flex container-sm p-1 bg-white  gap-5">
-        {/* left part  */}
+      {/* items added to Cart */}
+      <div className="d-flex container-sm p-1 bg-white gap-5">
+        {/* left part */}
         <img
           src={item.thumbnail}
           alt="error"
-          id="card-image "
+          id="card-image"
           style={{ width: "50%", height: "17rem", objectFit: "cover" }}
         />
-        {/* right-part  */}
+        {/* right-part */}
         <div
           className="d-flex flex-column gap-2 justify-content-center"
           style={{ width: "50%" }}
@@ -55,9 +61,7 @@ export default function Cart({ item }) {
               width={"30rem"}
               onClick={() => handlePlus(item)}
             />
-            <span className=" border border-1 border-dark px-4">
-              {item.qty}
-            </span>
+            <span className="border border-1 border-dark px-4">{item.qty}</span>
             <img
               src="https://cdn-icons-png.flaticon.com/128/9068/9068779.png"
               alt="error"
@@ -65,7 +69,7 @@ export default function Cart({ item }) {
               onClick={() => handleMinus(item)}
             />
           </div>
-          <div className="align-self-end mt-5 ">
+          <div className="align-self-end mt-5">
             <button
               type="button"
               className="btn btn-outline-secondary"
