@@ -1,21 +1,25 @@
-import React from "react";
-import { useDispatch, useSelector } from "react-redux";
-import BasicRating from "./BasicRating";
-import { ProductToview, addproducts } from "../actions";
-import { useNavigate } from "react-router-dom";
-import { addCart, CartItems } from "../actions";
-import { useState } from "react";
-import customFetch from "../apiCall";
-import { ToastContainer } from "react-toastify";
-import { showToastMessage } from "../Notification/notify";
-import "react-toastify/dist/ReactToastify.css";
+// Import necessary libraries and components
+import React from "react"; // Import React
+import { useDispatch, useSelector } from "react-redux"; // Import useDispatch and useSelector from react-redux
+import BasicRating from "./BasicRating"; // Import the BasicRating component
+import { ProductToview, addproducts } from "../actions"; // Import ProductToview and addproducts actions from "../actions"
+import { useNavigate } from "react-router-dom"; // Import useNavigate from react-router-dom
+import { addCart, CartItems } from "../actions"; // Import addCart and CartItems actions from "../actions"
+import { useState } from "react"; // Import useState from React
+import customFetch from "../apiCall"; // Import customFetch function from "../apiCall"
+import { ToastContainer } from "react-toastify"; // Import the ToastContainer component from react-toastify
+import { showToastMessage } from "../Notification/notify"; // Import the showToastMessage function from "../Notification/notify"
+import "react-toastify/dist/ReactToastify.css"; // Import CSS for the ToastContainer
 
 export default function ProductItem({ item }) {
+  // Define and initialize state variables
   const [addedItem, setaddedItem] = useState(true);
   const [title, settitle] = useState(item.title);
   const [price, setprice] = useState(item.price);
   const [rating, setrating] = useState(item.rating);
   const [description, setdescription] = useState(item.description);
+
+  // Get data from the Redux store
   const products = useSelector((state) => state.products);
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -23,41 +27,49 @@ export default function ProductItem({ item }) {
   const dispatchTotal = useDispatch();
   const dispatchProduct = useDispatch();
 
+  // Function to handle click on a product item
   function handleClick(item) {
-    dispatch(ProductToview(item));
+    dispatch(ProductToview(item)); // Dispatch the ProductToview action
     navigate(`/productdetails/${item.id}`);
   }
+
+  // Function to handle adding an item to the cart
   function handleCart(item) {
     if (addedItem) {
       item.qty = 1;
-      dispatchCart(addCart(item));
-      dispatchTotal(CartItems());
+      dispatchCart(addCart(item)); // Dispatch the addCart action
+      dispatchTotal(CartItems()); // Dispatch the CartItems action
       setaddedItem(false);
-      showToastMessage("item Added to cart", "success");
+      showToastMessage("Item Added to Cart", "success"); // Show a success toast message
     } else {
       navigate("/cart");
     }
   }
+
+  // Function to handle editing a product item
   function handleEdit(item) {
     item.edit = false;
-    dispatchProduct(addproducts([...products]));
+    dispatchProduct(addproducts([...products])); // Dispatch the addproducts action
   }
-  // making delete request
+
+  // Function to make a delete request for a product
   function handleDelelteProduct(item) {
     let url = `https://my-json-server.typicode.com/jaiswalaryan/data/products/${item.id}`;
     let result = customFetch(url, { method: "DELETE" });
 
     let index = products.indexOf(item);
     products.splice(index, 1);
-    dispatchProduct(addproducts([...products]));
-    showToastMessage("item deleted", "warning");
+    dispatchProduct(addproducts([...products])); // Dispatch the addproducts action
+    showToastMessage("Item deleted", "warning"); // Show a warning toast message
   }
-  // closing edit mode
+
+  // Function to cancel editing mode
   function handleCancel(item) {
     item.edit = true;
-    dispatchProduct(addproducts([...products]));
+    dispatchProduct(addproducts([...products])); // Dispatch the addproducts action
   }
-  // making put request after click on save button of edit
+
+  // Function to make a put request after clicking the save button in edit mode
   function handleSave(item) {
     let url = `https://my-json-server.typicode.com/jaiswalaryan/data/products/${item.id}`;
     let result = customFetch(url, {
@@ -75,23 +87,24 @@ export default function ProductItem({ item }) {
       let index = products.indexOf(item);
       products[index] = data;
 
-      dispatchProduct(addproducts([...products]));
-      showToastMessage("Edit suceesful", "success");
+      dispatchProduct(addproducts([...products])); // Dispatch the addproducts action
+      showToastMessage("Edit successful", "success"); // Show a success toast message
     });
   }
+
   return (
     //   container
     <div className="d-flex container-sm bg-white px-1 py-5 mt-4 flex-column flex-lg-row gap-3">
-      {/* left section  */}
-      <ToastContainer />
+      {/* Left section */}
+      <ToastContainer /> {/* Toast container for displaying messages */}
       <div className="d-flex container-sm gap-5">
         <img
           src={item.thumbnail}
           alt=""
           width={"200rem"}
-          onClick={() => handleClick(item)}
+          onClick={() => handleClick(item)} // Call handleClick function when clicked
         />
-        {/* right-part Content  */}
+        {/* Right-part Content */}
         <div className="d-flex flex-column gap-2">
           {item.edit ? (
             <span>{item.title}</span>
@@ -130,7 +143,7 @@ export default function ProductItem({ item }) {
           )}
         </div>
       </div>
-      {/* right section  */}
+      {/* Right section */}
       <div className="p-2">
         {item.edit ? (
           <span>{item.description}</span>
@@ -146,7 +159,7 @@ export default function ProductItem({ item }) {
           </div>
         )}
       </div>
-      {/* footer section  */}
+      {/* Footer section */}
       <div className="align-self-end d-flex align-items-center gap-4 flex-lg-grow-1 p-1">
         {item.edit ? (
           <button
@@ -156,7 +169,7 @@ export default function ProductItem({ item }) {
               width: "9rem",
               backgroundColor: "var(--nav)",
             }}
-            onClick={() => handleCart(item)}
+            onClick={() => handleCart(item)} // Call handleCart function when clicked
           >
             {addedItem ? "Add to Cart" : "Go to Cart "}
           </button>
@@ -164,7 +177,7 @@ export default function ProductItem({ item }) {
           <button
             type="button"
             className="btn btn-outline-secondary"
-            onClick={() => handleCancel(item)}
+            onClick={() => handleCancel(item)} // Call handleCancel function when clicked
           >
             Cancel
           </button>
@@ -178,7 +191,7 @@ export default function ProductItem({ item }) {
                 alt="error"
                 width={"30rem"}
                 style={{ cursor: "pointer" }}
-                onClick={() => handleEdit(item)}
+                onClick={() => handleEdit(item)} // Call handleEdit function when clicked
               />
             </span>
             <span>
@@ -187,7 +200,7 @@ export default function ProductItem({ item }) {
                 alt="error"
                 width={"30rem"}
                 style={{ cursor: "pointer" }}
-                onClick={() => handleDelelteProduct(item)}
+                onClick={() => handleDelelteProduct(item)} // Call handleDelelteProduct function when clicked
               />
             </span>
           </>
@@ -195,7 +208,7 @@ export default function ProductItem({ item }) {
           <button
             type="button"
             className="btn btn-outline-success"
-            onClick={() => handleSave(item)}
+            onClick={() => handleSave(item)} // Call handleSave function when clicked
           >
             Save
           </button>
