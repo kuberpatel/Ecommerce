@@ -1,11 +1,16 @@
-import React from "react";
-import ProductItem from "./ProductItem";
-import { useSelector } from "react-redux";
-import Sort from "./Sort";
+// Import necessary libraries and components
+import React from "react"; // Import React
+import ProductItem from "./ProductItem"; // Import the ProductItem component
+import { useSelector } from "react-redux"; // Import useSelector from react-redux
+import Sort from "./Sort"; // Import the Sort component
 
 export default function ProductItemList({}) {
+  // Get the product data from the Redux store
   const data = useSelector((state) => state.products);
-  if (data.length == 0) {
+
+  // Check if the data is empty
+  if (data.length === 0) {
+    // Display a loading spinner if data is empty
     return (
       <div className="d-flex justify-content-center mt-5">
         <div
@@ -18,9 +23,11 @@ export default function ProductItemList({}) {
       </div>
     );
   } else {
+    // Display the product list if data is available
     return (
       <div className="d-flex flex-column container-sm mt-4">
-        <Sort />
+        <Sort /> {/* Render the Sort component */}
+        {/* Map through the data and render each ProductItem component */}
         {data.map((item) => (
           <ProductItem item={item} key={item.title} />
         ))}
