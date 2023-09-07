@@ -1,27 +1,35 @@
+/* Import Google Fonts for Open Sans */
 @import url('https://fonts.googleapis.com/css2?family=Open+Sans&display=swap');
 
+/* Define root-level CSS variables for consistent use throughout the stylesheet */
 :root {
-  --nav: hsl(218, 87%, 55%);
-  --fontStyle: 'Open Sans', sans-serif;
+  --nav: hsl(218, 87%, 55%); /* Define a custom color variable for navigation */
+  --fontStyle: 'Open Sans', sans-serif; /* Define a custom font variable */
 }
 
-@media only screen and (max-width:424px){
-    #card-image{
-width: 11rem;
-    }
-    :root{
-        font-size: 11px;
-    }
-}
-body{
-    background-color: rgb(214, 214, 215);
-}
-@media only screen and (max-width:992px){
-    #detailAddedImage{
-        width: 100%;
-    }
-}
-.text-center {
-    color:hsl(218, 87%, 55%);
+/* Media query for screens with a maximum width of 424px */
+@media only screen and (max-width: 424px) {
+  #card-image {
+    width: 11rem; /* Adjust card image width for smaller screens */
   }
-  
+  :root {
+    font-size: 11px; /* Adjust the root font size for smaller screens */
+  }
+}
+
+/* Global body styles */
+body {
+  background-color: rgb(214, 214, 215); /* Set a background color for the body */
+}
+
+/* Media query for screens with a maximum width of 992px */
+@media only screen and (max-width: 992px) {
+  #detailAddedImage {
+    width: 100%; /* Adjust the width of the detail added image for medium-sized screens */
+  }
+}
+
+/* CSS class for text centering */
+.text-center {
+  color: hsl(218, 87%, 55%); /* Apply a custom text color for text-center class */
+}
