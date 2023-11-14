@@ -1,2 +1,2 @@
-Hosted Link -https://ecommerce-uwp3.onrender.com
+Hosted Link - https://ecommerce-kuberpatel.netlify.app/
 
